@@ -17,7 +17,11 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(".catalog-sheet")
     );
 
-    
+    const bookLinks = document.querySelectorAll(".book-link");
+    const homeButton = document.getElementById("homePage");
+    const bookTabs = document.querySelectorAll(".book-tab");
+    homeButton.addEventListener("click", goHome);
+
 
     /* =========================================
        SICHERHEITSPRÜFUNG
@@ -40,17 +44,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }*/
 
-
-
     /* =========================================
        STATUS
     ========================================= */
 
     let currentSheet = 0;
     let isAnimating = false;
-
-    const animationDuration = 1000;
-
+    const animationDuration = 800;
     console.log("2: status gefunden");
 
     /* =========================================
@@ -58,122 +58,86 @@ document.addEventListener("DOMContentLoaded", () => {
     ========================================= */
 
     function setSheetOrder() {
-
         sheets.forEach((sheet, index) => {
-
             if (index < currentSheet) {
-
                 sheet.style.zIndex = index + 1;
-
             } else {
-
                 sheet.style.zIndex = sheets.length - index;
-
             }
-
         });
-
     }
-
-
 
     /* =========================================
        BUTTONS AKTUALISIEREN
     ========================================= */
 
     function updateButtons() {
-
         previousButton.disabled = currentSheet === 0;
         nextButton.disabled = currentSheet === sheets.length;
-
         previousButton.setAttribute(
             "aria-disabled",
             String(currentSheet === 0)
         );
-
         nextButton.setAttribute(
             "aria-disabled",
             String(currentSheet === sheets.length)
         );
-
     }
-
-
 
     /* =========================================
        KATALOG ÖFFNEN
     ========================================= */
 
     function openCatalog() {
-
         if (isAnimating) {
             return;
         }
-
         catalogBook.classList.add("is-open");
         catalogControls.classList.add("is-visible");
-
         if (catalogIntro) {
             catalogIntro.classList.add("is-hidden");
         }
-
         bookCover.setAttribute(
             "aria-expanded",
             "true"
         );
-
         setSheetOrder();
         updateButtons();
-
+        updateBookTabs();
     }
-
-
 
     /* =========================================
        KATALOG SCHLIESSEN
     ========================================= */
 
     function closeCatalog() {
-
         if (isAnimating) {
             return;
         }
-
         isAnimating = true;
-
         catalogBook.classList.remove("is-open");
         catalogControls.classList.remove("is-visible");
-
         if (catalogIntro) {
             catalogIntro.classList.remove("is-hidden");
         }
-
         bookCover.setAttribute(
             "aria-expanded",
             "false"
         );
-
         window.setTimeout(() => {
-
             sheets.forEach(sheet => {
-
                 sheet.classList.remove(
                     "is-turned",
                     "is-turning"
                 );
-
                 sheet.style.zIndex = "";
-
             });
-
             currentSheet = 0;
             isAnimating = false;
-
+            updateBookTabs();
             setSheetOrder();
             updateButtons();
-
         }, 500);
-
     }
 
     /* =========================================
@@ -181,121 +145,87 @@ document.addEventListener("DOMContentLoaded", () => {
     ========================================= */
 
     function nextPage() {
-
         if (
             isAnimating ||
             currentSheet >= sheets.length
         ) {
             return;
         }
-
         isAnimating = true;
-
         const sheet = sheets[currentSheet];
-
         sheet.classList.add("is-turning");
 
         /*
          * Das aktuelle Blatt muss beim Umblättern
          * über allen anderen liegen.
          */
+
         sheet.style.zIndex = sheets.length + 10;
 
         /*
          * Zwei requestAnimationFrame-Aufrufe sorgen
          * für eine saubere CSS-Animation.
          */
+
         requestAnimationFrame(() => {
-
             requestAnimationFrame(() => {
-
                 sheet.classList.add("is-turned");
-
             });
-
         });
-
         window.setTimeout(() => {
-
             sheet.classList.remove("is-turning");
-
             currentSheet++;
-
             setSheetOrder();
             updateButtons();
-
+            updateBookTabs();
             isAnimating = false;
-
         }, animationDuration);
-
     }
-
-
 
     /* =========================================
        RÜCKWÄRTS UMBLÄTTERN
     ========================================= */
 
     function previousPage() {
-
         if (
             isAnimating ||
             currentSheet <= 0
         ) {
             return;
         }
-
         isAnimating = true;
-
         currentSheet--;
-
         const sheet = sheets[currentSheet];
-
         sheet.classList.add("is-turning");
 
         /*
          * Auch beim Zurückblättern liegt das Blatt
          * während der Animation ganz oben.
          */
+
         sheet.style.zIndex = sheets.length + 10;
-
         requestAnimationFrame(() => {
-
             requestAnimationFrame(() => {
-
                 sheet.classList.remove("is-turned");
-
             });
-
         });
-
         window.setTimeout(() => {
-
             sheet.classList.remove("is-turning");
-
             setSheetOrder();
             updateButtons();
-
+            updateBookTabs();
             isAnimating = false;
-
         }, animationDuration);
-
     }
 
     /* =========================================
        MAUSSTEUERUNG
     ========================================= */
 
-
     bookCover.addEventListener("click", openCatalog);
-
     nextButton.addEventListener("click", nextPage);
-
     previousButton.addEventListener("click", previousPage);
-
     closeButton.addEventListener("click", closeCatalog);
-
-
 
     /* =========================================
        TASTATURSTEUERUNG
@@ -306,31 +236,19 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!catalogBook.classList.contains("is-open")) {
             return;
         }
-
         if (event.key === "ArrowRight") {
-
             event.preventDefault();
             nextPage();
-
         }
-
         if (event.key === "ArrowLeft") {
-
             event.preventDefault();
             previousPage();
-
         }
-
         if (event.key === "Escape") {
-
             event.preventDefault();
             closeCatalog();
-
         }
-
     });
-
-
 
     /* =========================================
        STARTZUSTAND
@@ -340,8 +258,274 @@ document.addEventListener("DOMContentLoaded", () => {
         "aria-expanded",
         "false"
     );
-
     setSheetOrder();
     updateButtons();
 
+    /* =========================================
+       ZU SEITE SPRINGEN
+    ========================================= */
+
+    bookLinks.forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const targetId = link.dataset.target;
+            const targetChapter = document.getElementById(targetId);
+            if (!targetChapter) {
+                console.error("Kapitel nicht gefunden:", targetId);
+                return;
+            }
+            const targetSheet =
+                targetChapter.querySelector(".catalog-sheet");
+            if (!targetSheet) {
+                console.error(
+                    "Keine Buchseite im Kapitel gefunden:",
+                    targetId
+                );
+                return;
+            }
+            const targetIndex = sheets.indexOf(targetSheet);
+            console.log("Zielseite:", targetIndex);
+            goToSheet(targetIndex);
+        });
+    });
+
+
+    function goToSheet(targetIndex) {
+        if (isAnimating || targetIndex === currentSheet) {
+            return;
+        }
+        isAnimating = true;
+        const oldIndex = currentSheet;
+        const topZ = sheets.length + 300;
+
+        /* =========================================
+           NACH VORNE SPRINGEN
+           Seitenzahl wird höher
+           Blätter drehen nach LINKS
+        ========================================= */
+
+        if (targetIndex > oldIndex) {
+            const sheetsToTurn = sheets.slice(
+                oldIndex,
+                targetIndex
+            );
+
+            /* -----------------------------------------
+               ERSTE HÄLFTE
+
+               Auf der rechten Seite muss das ERSTE
+               Blatt oben liegen.
+
+               Beispiel:
+               2 -> 7
+
+               Blatt 2 liegt oben,
+               dann 3,
+               dann 4 ...
+            ----------------------------------------- */
+
+            sheetsToTurn.forEach((sheet, index) => {
+                sheet.classList.add("is-turning");
+                sheet.style.zIndex =
+                    topZ - index;
+            });
+
+            /* -----------------------------------------
+               DREHUNG STARTEN
+            ----------------------------------------- */
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    sheetsToTurn.forEach(sheet => {
+                        sheet.classList.add("is-turned");
+                    });
+                });
+            });
+
+            /* -----------------------------------------
+               BEI 90° STAPEL UMDREHEN
+
+               Jetzt befinden sich die Blätter auf
+               der LINKEN Buchseite.
+
+               Dort muss das LETZTE Blatt oben liegen,
+               weil dessen Rückseite die neue linke
+               Zielseite ist.
+            ----------------------------------------- */
+
+            window.setTimeout(() => {
+                sheetsToTurn.forEach((sheet, index) => {
+                    sheet.style.zIndex =
+                        topZ -
+                        (sheetsToTurn.length - 1 - index);
+                });
+            }, animationDuration / 2);
+
+            /* -----------------------------------------
+               ANIMATION BEENDET
+            ----------------------------------------- */
+
+            window.setTimeout(() => {
+                currentSheet = targetIndex;
+                sheetsToTurn.forEach(sheet => {
+                    sheet.classList.remove("is-turning");
+                    sheet.style.zIndex = "";
+                });
+                setSheetOrder();
+                updateButtons();
+                updateBookTabs();
+                isAnimating = false;
+            }, animationDuration);
+        }
+
+        /* =========================================
+           NACH HINTEN SPRINGEN
+           Seitenzahl wird kleiner
+           Blätter drehen nach RECHTS
+        ========================================= */
+
+        else {
+            const sheetsToTurn = sheets.slice(
+                targetIndex,
+                oldIndex
+            );
+
+            /* -----------------------------------------
+               ERSTE HÄLFTE
+
+               Wir starten auf der LINKEN Seite.
+
+               Deshalb muss zunächst das LETZTE Blatt
+               oben liegen.
+            ----------------------------------------- */
+
+            sheetsToTurn.forEach((sheet, index) => {
+                sheet.classList.add("is-turning");
+                sheet.style.zIndex =
+                    topZ -
+                    (sheetsToTurn.length - 1 - index);
+            });
+
+            /* -----------------------------------------
+               DREHUNG STARTEN
+            ----------------------------------------- */
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    sheetsToTurn.forEach(sheet => {
+                        sheet.classList.remove("is-turned");
+                    });
+                });
+            });
+
+            /* -----------------------------------------
+               BEI 90° STAPEL UMDREHEN
+
+               Jetzt kommen die Blätter auf die
+               RECHTE Buchseite.
+
+               Dort muss das ERSTE Blatt oben liegen,
+               weil dessen Vorderseite die neue
+               rechte Zielseite ist.
+            ----------------------------------------- */
+
+            window.setTimeout(() => {
+                sheetsToTurn.forEach((sheet, index) => {
+                    sheet.style.zIndex =
+                        topZ - index;
+                });
+            }, animationDuration / 2);
+
+            /* -----------------------------------------
+               ANIMATION BEENDET
+            ----------------------------------------- */
+
+            window.setTimeout(() => {
+                currentSheet = targetIndex;
+                sheetsToTurn.forEach(sheet => {
+                    sheet.classList.remove("is-turning");
+                    sheet.style.zIndex = "";
+                });
+                setSheetOrder();
+                updateButtons();
+                updateBookTabs();
+                isAnimating = false;
+            }, animationDuration);
+        }
+    }
+
+    function goHome() {
+        if (isAnimating || currentSheet === 0) {
+            return;
+        }
+        goToSheet(0);
+    }
+
+    bookTabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            const targetId = tab.dataset.target;
+            const targetChapter = document.getElementById(targetId);
+            if (!targetChapter) {
+                console.error("Kapitel nicht gefunden:", targetId);
+                return;
+            }
+            const targetSheet =
+                targetChapter.querySelector(".catalog-sheet");
+            if (!targetSheet) {
+                console.error(
+                    "Keine Buchseite im Kapitel gefunden:",
+                    targetId
+                );
+                return;
+            }
+            const targetIndex = sheets.indexOf(targetSheet);
+            if (!catalogBook.classList.contains("is-open")) {
+                openCatalog();
+                window.setTimeout(() => {
+                    goToSheet(targetIndex);
+                }, 500);
+            } else {
+                goToSheet(targetIndex);
+            }
+        });
+    });
+
+    function updateBookTabs() {
+        if (!catalogBook.classList.contains("is-open")) {
+            bookTabs.forEach(tab => {
+                tab.classList.remove("active");
+            });
+            return;
+        }
+        const chapterTabs = Array.from(bookTabs);
+        chapterTabs.forEach((tab, index) => {
+            const targetId = tab.dataset.target;
+            const chapter = document.getElementById(targetId);
+            if (!chapter) {
+                tab.classList.remove("active");
+                return;
+            }
+            const chapterSheet =
+                chapter.querySelector(".catalog-sheet");
+            const startIndex =
+                sheets.indexOf(chapterSheet);
+            const nextTab = chapterTabs[index + 1];
+            let endIndex = sheets.length;
+            if (nextTab) {
+                const nextChapter =
+                    document.getElementById(nextTab.dataset.target);
+                if (nextChapter) {
+                    const nextSheet =
+                        nextChapter.querySelector(".catalog-sheet");
+                    endIndex =
+                        sheets.indexOf(nextSheet);
+                }
+            }
+            tab.classList.toggle(
+                "active",
+                currentSheet >= startIndex &&
+                currentSheet < endIndex
+            );
+        });
+    }
 });

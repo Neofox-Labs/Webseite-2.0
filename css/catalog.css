@@ -9,15 +9,32 @@
     align-items: center;
 }
 
+.page-number{
+    position: absolute;
+    bottom: 25px;
+    font-size: 18px;
+    color: var(--font-gold);
+    user-select: none;
+}
+
+.page-left{
+    left: 35px;
+}
+
+.page-right{
+    right: 35px;
+}
+
 /* =========================================
    REFERENZKATALOG
    KOMPLETTE CSS FÜR BUCH + UMBLÄTTER-EFFEKT
 ========================================= */
 
 .catalog-section {
+    position: relative;
     min-height: calc(80vh - 80px);
     padding: 30px 20px;
-    overflow: hidden;
+    overflow: visible;
     box-sizing: border-box;
 
     display: flex;
@@ -88,6 +105,7 @@
     max-width: 1800px;
     margin: 0 auto;
     perspective: 2200px;
+    overflow: visible;
 }
 
 
@@ -97,7 +115,8 @@
 
 .catalog-book {
     position: relative;
-    width: min(1500px, 90vw);
+    /*width: min(1500px, 90vw);*/
+    width: min(750px, 90vw);
     height: 800px;
     margin: 0 auto;
     transform-style: preserve-3d;
@@ -105,6 +124,7 @@
         width 0.8s ease,
         height 0.8s ease,
         transform 0.8s ease;
+    overflow: visible;
 }
 
 .catalog-book:not(.is-open) {
@@ -278,6 +298,41 @@
     transform: rotateY(-155deg);
 }
 
+/* Kapitelauswahl*/
+.sections:hover{
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.book-link{
+    text-decoration: none;
+    font-size: 30px;
+}
+
+.toc-entry {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--font-gold);
+    width: 100%;
+}
+
+.toc-title {
+    white-space: nowrap;
+}
+
+.toc-dots {
+    flex: 1;
+    border-bottom: 2px dotted rgba(214, 165, 107, 0.5);
+    margin: 0 12px;
+}
+
+.toc-page {
+    width: 2ch;          /* oder 3ch bei Seiten >99 */
+    text-align: right;
+    flex-shrink: 0;
+}
+
 
 /* =========================================
    GEÖFFNETE BUCHSEITEN
@@ -297,6 +352,7 @@
         opacity 0.5s ease 0.3s,
         transform 0.7s ease 0.25s,
         visibility 0s linear 0.5s;
+    z-index: 2;
 }
 
 .catalog-book.is-open .book-pages {
@@ -320,6 +376,7 @@
     background: #f3ebdf;
     box-shadow:
         inset 0 0 25px rgba(0, 0, 0, 0.08);
+    z-index: 2;
 }
 
 .book-base-left {
@@ -368,7 +425,7 @@
     transform-origin: left center;
     transform-style: preserve-3d;
 
-    transition: transform 0.8s ease;
+    transition: transform 0.8s ease-in-out;
 }
 
 .catalog-sheet.is-turned {
@@ -664,6 +721,136 @@
     transform: none;
 }
 
+/* =========================================
+   KAPITELREGISTER
+========================================= */
+
+.book-tabs{
+    position: absolute;
+
+    /* Reiter nur ca. 7px in der Buchseite */
+
+    right: -148px;
+    top: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    z-index: 1;
+}
+
+
+/* =========================================
+   EINZELNER REITER
+========================================= */
+
+.book-tab{
+    position: relative;
+    width: 155px;
+    height: 58px;
+    box-sizing: border-box;
+    padding: 0 24px 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    color: var(--font-gold);
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+
+    /* Papieroptik */
+
+    background:
+        linear-gradient(
+            90deg,
+            #d5b36d 0px,
+            #eadcc5 7px,
+            #f3ebdf 18px,
+            #f5eee3 100%
+        );
+
+    /*
+        Nur kleine abgeschnittene Ecken rechts.
+        Vorher waren 84% zu aggressiv.
+    */
+
+    clip-path: polygon(
+        0 0,
+        94% 0,
+        100% 15%,
+        100% 85%,
+        94% 100%,
+        0 100%
+    );
+    filter:
+        drop-shadow(
+            3px 4px 3px
+            rgba(0, 0, 0, 0.3)
+        );
+    transition:
+        transform 0.25s ease,
+        filter 0.25s ease,
+        background 0.25s ease;
+}
+
+
+/* =========================================
+   EINSTECKKANTE
+========================================= */
+
+.book-tab::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 7px;
+    height: 100%;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(150, 105, 35, 0.5),
+            rgba(210, 170, 90, 0.15)
+        );
+}
+
+
+/* =========================================
+   HOVER
+========================================= */
+
+.book-tab:hover{
+    transform: translateX(8px);
+    filter:
+        drop-shadow(
+            4px 5px 4px
+            rgba(0, 0, 0, 0.38)
+        );
+}
+
+
+/* =========================================
+   AKTIVES KAPITEL
+========================================= */
+
+.book-tab.active{
+    transform: translateX(12px);
+    font-weight: 600;
+    background:
+        linear-gradient(
+            90deg,
+            #c89420 0px,
+            #d8ae4c 7px,
+            #efe2cd 9px,
+            #f5eee3 22px,
+            #f5eee3 100%
+        );
+    filter:
+        drop-shadow(
+            5px 5px 4px
+            rgba(0, 0, 0, 0.4)
+        );
+}
 
 /* =========================================
    TABLET

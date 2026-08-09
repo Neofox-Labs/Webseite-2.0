@@ -1,0 +1,40 @@
+Meine Empfehlung als Webdesigner
+
+Ich würde dein Corporate Design etwas aufteilen:
+
+Logo: Türkis (Markenfarbe)
+Website/Buch: Beige, Gold, Braun
+Türkis: Nur für Interaktionen (Hover, aktive Elemente, Buttons)
+
+
+Ich würde tatsächlich beides verwenden, aber mit klarer Rollenverteilung.
+
+Türkis → Primäre Akzentfarbe für Interaktionen.
+    Hover-Effekte
+    aktive Navigation
+    Links
+    Fokus-Zustände
+    kleine Animationen
+Pink → Sehr sparsam als sekundärer Akzent.
+    z. B. nur bei besonderen Highlights
+    Call-to-Action
+    kleine Details oder Animationen
+    niemals flächig
+
+
+Für dein aktuelles Design würde ich deshalb so arbeiten:
+📖 Buchseiten: Beige, Gold, Braun
+🦊 Logo: Originalfarben (Türkis + Pink)
+🖱️ Hover-Effekte: Türkis
+✨ Besondere Highlights: gelegentlich Pink
+
+
+Logo-Farben:
+    neon-grün:      #00ffb2
+    neon-pink:      #ff007f
+
+Webseite-Farben:
+    schriftfarbe:   darkgoldenrod
+    beige:          #f3ebdf
+    hellbraun:      #d6a56b
+    dunkelbraun:    #30251d

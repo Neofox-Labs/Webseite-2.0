@@ -14,6 +14,11 @@
     box-sizing: border-box;
 }
 
+html,
+body {
+    overflow: hidden;
+}
+
 .page_content{
     flex: 1;
 }
@@ -290,6 +295,11 @@ ul{
 .padding_left_right_15{
     padding-left: 15px;
     padding-right: 15px;
+}
+
+.padding_left_right_50{
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 .height_60vh{

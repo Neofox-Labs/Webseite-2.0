@@ -23,12 +23,6 @@
     </head>
 
     <body>
-        <!--<div id="navbar"></div>
-
-        <div id="logo">
-            <img src="/pics/Logo2.png" alt="Neongrüner eckiger Fuchs mit magentafarbenem Auge und integriertem Erlmeyerkoblen" style="height: 100%; width:auto">
-        </div>-->
-
         <div class="page_content">
 
             <div class="catalog-page centered height_100vh">
@@ -77,7 +71,7 @@
                             <div class="book-pages" id="bookPages">
                             
                                 <!-- Feste linke Buchseite -->
-                                <div class="book-base-page book-base-left">
+                                <div class="book-base-page book-base-left" id="book-cover">
                                     <span class="book-placeholder">
                                         Für alle, die Ideen nicht nur denken,<br>
                                         sondern Wirklichkeit werden lassen.<br>
@@ -90,7 +84,17 @@
                                         auch deine Geschichte.
                                     </span>
 
+                                    <!--Steuerungsbuttons-->
                                     <div class="catalog-controls" id="catalogControls">
+
+                                        <button
+                                            class="catalog-arrow"
+                                            id="homePage"
+                                            type="button"
+                                            aria-label="Startseite"
+                                        >
+                                            &#x2302;
+                                        </button>
 
                                         <button
                                             class="catalog-arrow"
@@ -127,117 +131,222 @@
                             
                                 <div class="book-center-fold"></div>
 
-                                <!-- ==========================
-                                     HIER KOMMEN DIE SEITEN HIN
-                                =========================== -->
+                                <div id="buch">
 
-                                <div class="catalog-sheet" data-page="1">
-                                    <div class="sheet-front page-layout">
-                                        <!--Seite 1-->
-                                        <div class="margin_to_bo_15"></div>
-                                        <img src="/pics/10.webp" style="width: 400px;" alt="">
-                                        <div class="margin_to_bo_10"></div>
-                                        <h2 class="font-color">Schloss Leuk beleuchtet</h2>
-                                    </div>
-                                
-                                    <div class="sheet-back page-layout">
-                                        <!--Seite 2-->
-                                        <div class="margin_to_bo_35"></div>
-                                        <h2 class="font-color">Schloss Leuk beleuchtet</h2>
-                                        <h3 class="font-color">Informationen</h3>
-                                        <div class="font-color">
-                                            <table>
-                                                <tr class="height_30">
-                                                    <td class="width_250">Laserdauer:</td>
-                                                    <td>20 min</td>
-                                                </tr>
-                                                <tr class="height_30">
-                                                    <td class="width_250">Anzahl und Grösse Sperrholz:</td>
-                                                    <td>1,5 DinA3</td>
-                                                </tr>
-                                                <tr class="height_30">
-                                                    <td class="width_250">Baudauer:</td>
-                                                    <td>1,5 h</td>
-                                                </tr>
-                                                <tr class="height_30">
-                                                    <td class="width_250">Preis mit Beleuchtung:</td>
-                                                    <td>60 CHF</td>
-                                                </tr>
-                                                <tr class="height_30">
-                                                    <td class="width_250">Preis ohne Beleuchtung:</td>
-                                                    <td>50 CHF</td>
-                                                </tr>
-                                            </table>
-
+                                    <div class="catalog-sheet" data-page="1">
+                                        <div class="sheet-front page-layout just_cont">
+                                            <!--Kapitelübersicht-->
+                                            <!--Seite 1-->
+                                            <a href="#kapitel_ueber_mich" class="sections margin_to_bo_15 book-link padding_left_right_50 toc-entry" data-target="kapitel_ueber_mich">
+                                                <span class="toc-title">Über mich</span>
+                                                <span class="toc-dots"></span>
+                                                <span class="toc-page">2</span>
+                                            </a>
+                                            <a href="#kapitel_was_wir_machen" class="sections margin_to_bo_15 book-link padding_left_right_50 toc-entry" data-target="kapitel_was_wir_machen">
+                                                <span class="toc-title">Was wir machen</span>
+                                                <span class="toc-dots"></span>
+                                                <span class="toc-page">4</span>
+                                            </a>
+                                            <a href="#kapitel_projekte" class="sections margin_to_bo_15 book-link padding_left_right_50 toc-entry" data-target="kapitel_projekte">
+                                                <span class="toc-title">Projekte</span>
+                                                <span class="toc-dots"></span>
+                                                <span class="toc-page">3</span>
+                                            </a>
+                                            <a href="#kapitel_deine_idee" class="sections margin_to_bo_15 book-link padding_left_right_50 toc-entry" data-target="kapitel_deine_idee">
+                                                <span class="toc-title">Deine Idee</span>
+                                                <span class="toc-dots"></span>
+                                                <span class="toc-page">3</span>
+                                            </a>
+                                            <a href="#kapitel_kontakt" class="sections margin_to_bo_15 book-link padding_left_right_50 toc-entry" data-target="kapitel_kontakt">
+                                                <span class="toc-title">Kontakt</span>
+                                                <span class="toc-dots"></span>
+                                                <span class="toc-page">3</span>
+                                            </a>
+                                            <div class="margin_to_bo_25"></div>
+                                            <a href="#kapitel_anhang" class="sections margin_to_bo_15 book-link padding_left_right_50 toc-entry" data-target="kapitel_anhang">
+                                                <span class="toc-title">Anhang</span>
+                                                <span class="toc-dots"></span>
+                                                <span class="toc-page">3</span>
+                                            </a>
+                                            <span class="page-number page-right">
+                                                1
+                                            </span>
                                         </div>
-
+                                    
+                                        <div class="sheet-back page-layout just_cont">
+                                            <!--Seite 2-->
+                                            <h1 class="font-color">Über mich</h1>
+                                            <span class="page-number page-left">
+                                                2
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                            
-                                <div class="catalog-sheet" data-page="2">
-                                    <div class="sheet-front page-layout">
-                                        Seite 3
+
+                                    <div id="kapitel_ueber_mich">
+                                        <div class="catalog-sheet" data-page="2">
+                                            <div class="sheet-front page-layout centered padding_left_right_50">
+                                                <!--Seite 3-->
+                                                <h2 class="font-color">Christian Schmid</h2>
+                                                <h3 class="font-color">Gründer von Neofox-Labs</h3>
+                                                <img src="/pics/profilbild_v2.png" style="height: 200px; width:auto" alt="">
+                                                <p class="font-color text_center">
+                                                    Ich bin Christian, Gründer von Neofox-Labs. Mein Berufsweg begann als Koch, führte mich über die Ausbildung
+                                                    zum Elektroinstallateur bis zur Weiterbildung zum Elektrotechniker. Jede dieser Stationen hat meinen Blick 
+                                                    auf Arbeit geprägt - von handwerklicher Präzision über technisches Verständnis bis hin zum strukturierten Lösen 
+                                                    komplexer Aufgaben. <br><br> Mit der Zeit entdeckte ich meine Leidenschaft für digitale Gestaltung. Ich begann, mich 
+                                                    intensiv mit Webentwicklung, Design und 3D-Modellierung auseinanderzusetzen und entwickelte meine Fähigkeiten 
+                                                    Schritt für Schritt durch eigene Projekte weiter. <br><br>Aus dieser Leidenschaft entstand Neofox-Labs. Heute verbinde 
+                                                    ich technisches Know-how mit kreativem Design, um durchdachte digitale Lösungen und individuelle Produkte zu entwickeln. 
+                                                    Dabei lege ich Wert auf Qualität, persönliche Zusammenarbeit und den Anspruch, jedes Projekt kontinuierlich weiterzuentwickeln.
+                                                </p>
+                                                <span class="page-number page-right">
+                                                    3
+                                                </span>
+                                            </div>
+                                        
+                                            <div class="sheet-back page-layout just_cont">
+                                                <!--Seite 4-->
+                                                <h1 class="font-color">Was wir machen</h1>
+                                                <span class="page-number page-left">
+                                                    4
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="kapitel_was_wir_machen">
+                                        <div class="catalog-sheet" data-page="3">
+                                            <div class="sheet-front page-layout centered padding_left_right_50">
+                                                <!--Seite 5-->
+                                                <img src="/pics/10.webp" style="height: 200px; width:auto" alt="">
+                                                <p class="font-color text_center">
+                                                    Hallo, wir sind Neofox-Labs.<br><br>Wir entwickeln individuelle Produkte und digitale Lösungen mit Fokus auf Lasergravur, 
+                                                    Laserschnitt und Button-Herstellung. Von der ersten Idee bis zum fertigen Produkt arbeiten wir präzise, strukturiert und 
+                                                    mit einem hohen Anspruch an Qualität.<br><br>Ob Einzelstück, Prototyp oder Kleinserie - wir denken mit, arbeiten 
+                                                    lösungsorientiert und setzen jedes Projekt sauber und reproduzierbar um. Unser Ziel sind Produkte, die nicht nur gut aussehen, 
+                                                    sondern auch technisch überzeugen und langlebig verarbeitet sind.<br><br>Neofox-Labs steht für präzise Umsetzung, klare 
+                                                    Prozesse und ehrliche Zusammenarbeit. Wir verzichten auf leere Versprechen und unnötige Komplexität. Stattdessen setzen wir 
+                                                    auf transparente Kommunikation, pragmatische Lösungen und Ergebnisse, hinter denen wir stehen.
+                                                </p>
+                                                <span class="page-number page-right">
+                                                    5
+                                                </span>
+                                            </div>
+                                        
+                                            <div class="sheet-back page-layout just_cont">
+                                                <!--Seite 6-->
+                                                <h1 class="font-color">Projekte</h1>
+                                                <span class="page-number page-left">
+                                                    6
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="kapitel_projekte">
+                                        <div class="catalog-sheet" data-page="4">
+                                            <div class="sheet-front page-layout">
+                                                <!--Seite 7-->
+                                                <div class="margin_to_bo_15"></div>
+                                                <img src="/pics/10.webp" style="width: 400px;" alt="">
+                                                <div class="margin_to_bo_10"></div>
+                                                <h2 class="font-color">Schloss Leuk beleuchtet</h2>
+                                                <span class="page-number page-right">
+                                                    7
+                                                </span>
+                                            </div>
+                                        
+                                            <div class="sheet-back page-layout">
+                                                <!--Seite 8-->
+                                                <div class="margin_to_bo_35"></div>
+                                                <h2 class="font-color">Schloss Leuk beleuchtet</h2>
+                                                <h3 class="font-color">Informationen</h3>
+                                                <div class="font-color">
+                                                    <table>
+                                                        <tr class="height_30">
+                                                            <td class="width_250">Laserdauer:</td>
+                                                            <td>20 min</td>
+                                                        </tr>
+                                                        <tr class="height_30">
+                                                            <td class="width_250">Anzahl und Grösse Sperrholz:</td>
+                                                            <td>1,5 DinA3</td>
+                                                        </tr>
+                                                        <tr class="height_30">
+                                                            <td class="width_250">Baudauer:</td>
+                                                            <td>1,5 h</td>
+                                                        </tr>
+                                                        <tr class="height_30">
+                                                            <td class="width_250">Preis mit Beleuchtung:</td>
+                                                            <td>60 CHF</td>
+                                                        </tr>
+                                                        <tr class="height_30">
+                                                            <td class="width_250">Preis ohne Beleuchtung:</td>
+                                                            <td>50 CHF</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <span class="page-number page-left">
+                                                    8
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="catalog-sheet" data-page="2">
+                                            <div class="sheet-front page-layout">
+                                                <!--Seite 9-->
+                                                <span class="page-number page-right">
+                                                    9
+                                                </span>
+                                            </div>
+                                        
+                                            <div class="sheet-back page-layout">
+                                                <!--Seite 10-->
+                                                <span class="page-number page-left">
+                                                    10
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 
-                                    <div class="sheet-back page-layout">
-                                        Seite 4
-                                    </div>
                                 </div>
                             
                             </div>
 
                             <!-- Ende book-pages -->
 
+                            <div class="book-tabs">
+
+                                <button class="book-tab" data-target="kapitel_ueber_mich">
+                                    Über mich
+                                </button>
+                            
+                                <button class="book-tab" data-target="kapitel_was_wir_machen">
+                                    Was wir machen
+                                </button>
+                            
+                                <button class="book-tab" data-target="kapitel_projekte">
+                                    Projekte
+                                </button>
+                            
+                                <button class="book-tab" data-target="kapitel_deine_idee">
+                                    Deine Idee
+                                </button>
+                            
+                                <button class="book-tab" data-target="kapitel_kontakt">
+                                    Kontakt
+                                </button>
+                            
+                            </div>
+
                         </div>
                         <!-- Ende catalog-book -->
-                    
-                    
-                        <!--<div
-                            class="catalog-controls"
-                            id="catalogControls"
-                        >
-                    
-                            <button
-                                class="catalog-arrow"
-                                id="previousPages"
-                                type="button"
-                                aria-label="Vorherige Seite"
-                            >
-                                &#8592;
-                            </button>
-                        
-                            <button
-                                class="close-catalog"
-                                id="closeCatalog"
-                                type="button"
-                            >
-                                Katalog schliessen
-                            </button>
-                        
-                            <button
-                                class="catalog-arrow"
-                                id="nextPages"
-                                type="button"
-                                aria-label="Nächste Seite"
-                            >
-                                &#8594;
-                            </button>
-                        
-                        </div>-->
                     
                     </div>
                     <!-- Ende catalog-stage -->
                 
                 </div>
-
-            
-
-            <!--<div class="construction-banner text_center margin_top_15">
-                🚧 Der Shop befindet sich aktuell im Umbau. Inhalte und Funktionen werden laufend ergänzt.
-            </div>-->
         </div>
-
-        <!--<div id="line"></div>
-        <div id="footer"></div>-->
     </body>
 </html>
