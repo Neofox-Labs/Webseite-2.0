@@ -22,6 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const bookTabs = document.querySelectorAll(".book-tab");
     homeButton.addEventListener("click", goHome);
 
+    const projectVideos = document.querySelectorAll(".project-video");
+
 
     /* =========================================
        SICHERHEITSPRÜFUNG
@@ -51,6 +53,15 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentSheet = 0;
     let isAnimating = false;
     const animationDuration = 800;
+
+    function hideControlsWhileTurning() {
+        catalogControls.classList.add("is-turning");
+    }
+
+    function showControlsAfterTurning() {
+        catalogControls.classList.remove("is-turning");
+    }
+
     console.log("2: status gefunden");
 
     /* =========================================
@@ -59,11 +70,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function setSheetOrder() {
         sheets.forEach((sheet, index) => {
+
             if (index < currentSheet) {
+                // Bereits umgeblätterte Seiten links
+                // Je näher an currentSheet, desto weiter oben
                 sheet.style.zIndex = index + 1;
             } else {
-                sheet.style.zIndex = sheets.length - index;
+                // Noch nicht umgeblätterte Seiten rechts
+                // Die aktuelle Seite muss ganz oben liegen
+                sheet.style.zIndex =
+                    sheets.length - (index - currentSheet);
             }
+
         });
     }
 
@@ -152,6 +170,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         isAnimating = true;
+
+        hideControlsWhileTurning();
+
         const sheet = sheets[currentSheet];
         sheet.classList.add("is-turning");
 
@@ -173,11 +194,14 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
         window.setTimeout(() => {
-            sheet.classList.remove("is-turning");
             currentSheet++;
             setSheetOrder();
+            sheet.classList.remove("is-turning");
             updateButtons();
             updateBookTabs();
+
+            showControlsAfterTurning();
+
             isAnimating = false;
         }, animationDuration);
     }
@@ -194,6 +218,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         isAnimating = true;
+
+        hideControlsWhileTurning();
+
         currentSheet--;
         const sheet = sheets[currentSheet];
         sheet.classList.add("is-turning");
@@ -210,10 +237,13 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
         window.setTimeout(() => {
-            sheet.classList.remove("is-turning");
             setSheetOrder();
+            sheet.classList.remove("is-turning");
             updateButtons();
             updateBookTabs();
+
+            showControlsAfterTurning();
+
             isAnimating = false;
         }, animationDuration);
     }
@@ -295,6 +325,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         isAnimating = true;
+
+        hideControlsWhileTurning();
+
         const oldIndex = currentSheet;
         const topZ = sheets.length + 300;
 
@@ -374,6 +407,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 setSheetOrder();
                 updateButtons();
                 updateBookTabs();
+
+                showControlsAfterTurning();
+                
                 isAnimating = false;
             }, animationDuration);
         }
@@ -449,6 +485,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 setSheetOrder();
                 updateButtons();
                 updateBookTabs();
+
+                showControlsAfterTurning();
+                
                 isAnimating = false;
             }, animationDuration);
         }
@@ -528,4 +567,36 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         });
     }
+
+    /* =========================================
+       VIDEOEINBETTUNG
+    ========================================= */
+
+    projectVideos.forEach(video => {
+        video.addEventListener("click", () => {
+            const videoId = video.dataset.videoId;
+
+            if (!videoId) {
+                console.error("Keine YouTube-Video-ID gefunden.");
+                return;
+            }
+
+            const iframe = document.createElement("iframe");
+
+            iframe.src =
+                `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+
+            iframe.title = "YouTube Video";
+            iframe.allow =
+                "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+            iframe.allowFullscreen = true;
+
+            iframe.style.width = "100%";
+            iframe.style.height = "100%";
+            iframe.style.border = "0";
+
+            video.innerHTML = "";
+            video.appendChild(iframe);
+        });
+    });
 });

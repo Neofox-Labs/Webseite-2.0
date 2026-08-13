@@ -260,7 +260,6 @@ body{
 }
 
 strong{
-    color: var(--box-shadow-mittel);
     font-weight: 900;
 }
 
@@ -323,6 +322,18 @@ ul{
     width: 250px;
 }
 
-.height_30{
-    height: 30px;
+.height_10{
+    height: 10px;
+}
+
+.height_20{
+    height: 20px;
+}
+
+.height_250{
+    height: 250px;
+}
+
+.height_300{
+    height: 300px;
 }
