@@ -872,15 +872,98 @@
 
 
 /* =========================================
-   UNTERKAPITEL
+   PROJEKT-UNTERREITER
 ========================================= */
 
 .project-subtabs {
-    display: none;
+    display: flex;
+    flex-direction: column;
+
+    width: 135px;
+
+    margin-left: 20px;
+
+    gap: 3px;
+
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+
+    transition:
+        max-height 0.35s ease,
+        opacity 0.25s ease,
+        margin 0.35s ease;
 }
 
-.book-tab-group.active .project-subtabs {
-    display: flex;
+
+/* sichtbar wenn Projekte aktiv */
+
+.project-subtabs.is-visible {
+    max-height: 350px;
+
+    opacity: 1;
+    pointer-events: auto;
+
+    margin-top: 2px;
+    margin-bottom: 4px;
+}
+
+
+/* =========================================
+   EINZELNER UNTERREITER
+========================================= */
+
+.project-subtab {
+    width: 135px;
+    min-height: 32px;
+    padding: 5px 10px;
+    border: none;
+    background:
+        linear-gradient(
+            90deg,
+            #eadcc5 0px,
+            #f3ebdf 8px,
+            #f5eee3 100%
+        );
+
+    color: var(--font-gold);
+    font-family: inherit;
+    font-size: 10px;
+    line-height: 1.2;
+    cursor: pointer;
+    clip-path: polygon(
+        0 0,
+        94% 0,
+        100% 15%,
+        100% 85%,
+        94% 100%,
+        0 100%
+    );
+    filter:
+        drop-shadow(
+            2px 2px 2px rgba(0, 0, 0, 0.22)
+        );
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.project-subtab:hover {
+    transform: translateX(5px);
+}
+
+.project-subtab.active {
+    transform: translateX(7px);
+    font-weight: 600;
+    background:
+        linear-gradient(
+            90deg,
+            #c89420 0px,
+            #d8ae4c 6px,
+            #efe2cd 12px,
+            #f5eee3 100%
+        );
 }
 
 
@@ -1047,6 +1130,37 @@
     bottom: -57px;
     transform: rotate(25deg);
 }
+
+
+/* =========================================
+   KONTAKT
+========================================= */
+.contact-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #c38300;
+    text-decoration: none;
+}
+
+.contact-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.contact-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    fill: currentColor;
+}
+
+a.contact-line:hover {
+    text-decoration: underline;
+}
+
 
 /* =========================================
    TABLET

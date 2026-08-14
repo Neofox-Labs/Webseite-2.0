@@ -24,6 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const projectVideos = document.querySelectorAll(".project-video");
 
+    
+    const projectSubtabsContainer = document.querySelector(".project-subtabs");
+
+    const projectSubtabs = document.querySelectorAll(".project-subtab");
+
 
     /* =========================================
        SICHERHEITSPRÜFUNG
@@ -529,13 +534,63 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    /* =========================================
+       PROJEKT-UNTERREITER
+    ========================================= */
+
+    projectSubtabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            const targetPage =
+                Number(tab.dataset.page);
+            const targetSheet = sheets.find(
+                sheet =>
+                    Number(sheet.dataset.page) === targetPage
+            );
+            if (!targetSheet) {
+                console.error(
+                    "Projektseite nicht gefunden:",
+                    targetPage
+                );
+                return;
+            }
+            const targetIndex =
+                sheets.indexOf(targetSheet);
+
+            /* Buch gegebenenfalls zuerst öffnen */
+
+            if (
+                !catalogBook.classList.contains("is-open")
+            ) {
+                openCatalog();
+                window.setTimeout(() => {
+                    goToSheet(targetIndex);
+                }, 500);
+            } else {
+                goToSheet(targetIndex);
+            }
+        });
+    });
+
     function updateBookTabs() {
+        /* =========================================
+           BUCH GESCHLOSSEN
+        ========================================= */
+
         if (!catalogBook.classList.contains("is-open")) {
+
             bookTabs.forEach(tab => {
                 tab.classList.remove("active");
             });
+            projectSubtabsContainer?.classList.remove("is-visible");
+            projectSubtabs.forEach(tab => {tab.classList.remove("active");});
             return;
         }
+
+
+        /* =========================================
+           HAUPTREITER
+        ========================================= */
+
         const chapterTabs = Array.from(bookTabs);
         chapterTabs.forEach((tab, index) => {
             const targetId = tab.dataset.target;
@@ -544,26 +599,50 @@ document.addEventListener("DOMContentLoaded", () => {
                 tab.classList.remove("active");
                 return;
             }
-            const chapterSheet =
-                chapter.querySelector(".catalog-sheet");
-            const startIndex =
-                sheets.indexOf(chapterSheet);
+            const chapterSheet = chapter.querySelector(".catalog-sheet");
+            const startIndex = sheets.indexOf(chapterSheet);
             const nextTab = chapterTabs[index + 1];
             let endIndex = sheets.length;
             if (nextTab) {
-                const nextChapter =
-                    document.getElementById(nextTab.dataset.target);
+                const nextChapter = document.getElementById(nextTab.dataset.target);
                 if (nextChapter) {
-                    const nextSheet =
-                        nextChapter.querySelector(".catalog-sheet");
-                    endIndex =
-                        sheets.indexOf(nextSheet);
+                    const nextSheet = nextChapter.querySelector(".catalog-sheet");
+                    endIndex = sheets.indexOf(nextSheet);
                 }
             }
             tab.classList.toggle(
                 "active",
                 currentSheet >= startIndex &&
                 currentSheet < endIndex
+            );
+        });
+
+
+        /* =========================================
+           PROJEKT-UNTERREITER EINBLENDEN
+        ========================================= */
+
+        const projectsTab = document.querySelector('.book-tab[data-target="kapitel_projekte"]');
+
+        const projectsActive = projectsTab?.classList.contains("active");
+        projectSubtabsContainer?.classList.toggle("is-visible", projectsActive);
+
+
+        /* =========================================
+           AKTIVEN PROJEKT-UNTERREITER MARKIEREN
+        ========================================= */
+
+        projectSubtabs.forEach(tab => {
+            const page = Number(tab.dataset.page);
+            const targetSheet = sheets.find(sheet => Number(sheet.dataset.page) === page);
+            if (!targetSheet) {
+                tab.classList.remove("active");
+                return;
+            }
+            const targetIndex = sheets.indexOf(targetSheet);
+            tab.classList.toggle(
+                "active",
+                currentSheet === targetIndex
             );
         });
     }
