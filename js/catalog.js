@@ -26,8 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     
     const projectSubtabsContainer = document.querySelector(".project-subtabs");
+    const anhangSubtabsContainer = document.querySelector(".anhang-subtabs");
 
     const projectSubtabs = document.querySelectorAll(".project-subtab");
+    const anhangSubtabs = document.querySelectorAll(".anhang-subtab");
 
 
     /* =========================================
@@ -535,7 +537,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* =========================================
-       PROJEKT-UNTERREITER
+       UNTERREITER
     ========================================= */
 
     projectSubtabs.forEach(tab => {
@@ -571,6 +573,39 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    anhangSubtabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            const targetPage =
+                Number(tab.dataset.page);
+            const targetSheet = sheets.find(
+                sheet =>
+                    Number(sheet.dataset.page) === targetPage
+            );
+            if (!targetSheet) {
+                console.error(
+                    "Anhangseite nicht gefunden:",
+                    targetPage
+                );
+                return;
+            }
+            const targetIndex =
+                sheets.indexOf(targetSheet);
+
+            /* Buch gegebenenfalls zuerst öffnen */
+
+            if (
+                !catalogBook.classList.contains("is-open")
+            ) {
+                openCatalog();
+                window.setTimeout(() => {
+                    goToSheet(targetIndex);
+                }, 500);
+            } else {
+                goToSheet(targetIndex);
+            }
+        });
+    });
+
     function updateBookTabs() {
         /* =========================================
            BUCH GESCHLOSSEN
@@ -582,7 +617,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 tab.classList.remove("active");
             });
             projectSubtabsContainer?.classList.remove("is-visible");
+            anhangSubtabsContainer?.classList.remove("is-visible");
             projectSubtabs.forEach(tab => {tab.classList.remove("active");});
+            anhangSubtabs.forEach(tab => {tab.classList.remove("active");});
             return;
         }
 
@@ -628,11 +665,37 @@ document.addEventListener("DOMContentLoaded", () => {
         projectSubtabsContainer?.classList.toggle("is-visible", projectsActive);
 
 
+
         /* =========================================
-           AKTIVEN PROJEKT-UNTERREITER MARKIEREN
+           ANHANG-UNTERREITER EINBLENDEN
+        ========================================= */
+
+        const anhangsTab = document.querySelector('.book-tab[data-target="kapitel_anhang"]');
+
+        const anhangsActive = anhangsTab?.classList.contains("active");
+        anhangSubtabsContainer?.classList.toggle("is-visible", anhangsActive);
+
+
+
+        /* =========================================
+           AKTIVEN UNTERREITER MARKIEREN
         ========================================= */
 
         projectSubtabs.forEach(tab => {
+            const page = Number(tab.dataset.page);
+            const targetSheet = sheets.find(sheet => Number(sheet.dataset.page) === page);
+            if (!targetSheet) {
+                tab.classList.remove("active");
+                return;
+            }
+            const targetIndex = sheets.indexOf(targetSheet);
+            tab.classList.toggle(
+                "active",
+                currentSheet === targetIndex
+            );
+        });
+
+        anhangSubtabs.forEach(tab => {
             const page = Number(tab.dataset.page);
             const targetSheet = sheets.find(sheet => Number(sheet.dataset.page) === page);
             if (!targetSheet) {

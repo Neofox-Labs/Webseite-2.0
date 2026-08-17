@@ -875,7 +875,8 @@
    PROJEKT-UNTERREITER
 ========================================= */
 
-.project-subtabs {
+.project-subtabs,
+.anhang-subtabs {
     display: flex;
     flex-direction: column;
 
@@ -899,7 +900,8 @@
 
 /* sichtbar wenn Projekte aktiv */
 
-.project-subtabs.is-visible {
+.project-subtabs.is-visible,
+.anhang-subtabs.is-visible {
     max-height: 350px;
 
     opacity: 1;
@@ -914,7 +916,8 @@
    EINZELNER UNTERREITER
 ========================================= */
 
-.project-subtab {
+.project-subtab,
+.anhang-subtab {
     width: 135px;
     min-height: 32px;
     padding: 5px 10px;
@@ -949,11 +952,13 @@
         background-color 0.2s ease;
 }
 
-.project-subtab:hover {
+.project-subtab:hover,
+.anhang-subtab:hover {
     transform: translateX(5px);
 }
 
-.project-subtab.active {
+.project-subtab.active,
+.anhang-subtab.active {
     transform: translateX(7px);
     font-weight: 600;
     background:
@@ -1139,9 +1144,22 @@
     display: flex;
     align-items: center;
     gap: 10px;
-
-    color: #c38300;
+    color: var(--font-gold);
     text-decoration: none;
+}
+
+.contact-line-short {
+    display: inline-flex;
+    align-items: center;
+    color: var(--font-gold);
+    text-decoration: none;
+}
+
+.contact-line-short:link,
+.contact-line-short:visited,
+.contact-line-short:hover,
+.contact-line-short:active {
+    color: inherit;
 }
 
 .contact-icon {
@@ -1158,6 +1176,10 @@
 }
 
 a.contact-line:hover {
+    text-decoration: underline;
+}
+
+a.contact-line-short:hover {
     text-decoration: underline;
 }
 
